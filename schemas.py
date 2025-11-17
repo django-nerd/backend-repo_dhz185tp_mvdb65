@@ -8,7 +8,7 @@ Each Pydantic model represents a collection in your database.
 Model name is converted to lowercase for the collection name:
 - User -> "user" collection
 - Product -> "product" collection
-- BlogPost -> "blogs" collection
+- BlogPost -> "blogpost" collection
 """
 
 from pydantic import BaseModel, Field
@@ -37,6 +37,19 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+class BlogPost(BaseModel):
+    """
+    Blog posts collection schema
+    Collection name: "blogpost" (lowercase of class name)
+    """
+    title: str = Field(..., description="Blog post title")
+    excerpt: Optional[str] = Field(None, description="Short summary for previews")
+    content: str = Field(..., description="Full blog content (markdown or html)")
+    author: str = Field(..., description="Author name")
+    cover_image: Optional[str] = Field(None, description="URL to cover image")
+    tags: Optional[list[str]] = Field(default_factory=list, description="Tags for filtering")
+    is_published: bool = Field(True, description="Publish state")
 
 # Add your own schemas here:
 # --------------------------------------------------
